@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAUDQU - Pendidikan Anak Usia Dini Al-Qur'an</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Fredoka & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        gold: {
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                        },
+                        amber: {
+                            500: '#f59e0b',
+                        }
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Fredoka', cursive;
+        }
+        .pattern-bg {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#10b981 0.75px, transparent 0.75px), radial-gradient(#10b981 0.75px, #f8fafc 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+        /* Custom Scrollbar for Dashboard Modal */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-emerald-500 selection:text-white relative">
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed top-24 right-4 sm:right-6 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-emerald-100 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="#beranda" class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-600/30 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-book-quran text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-bold font-heading text-emerald-800 tracking-wide block leading-none">PAUDQU</span>
+                        <span class="text-xs text-emerald-600 font-medium tracking-wider">Ceria, Qur'ani & Mandiri</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu Navigasi -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 font-medium text-slate-600">
+                    <a href="#beranda" class="px-3 py-2 rounded-xl text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors">Beranda</a>
+                    <a href="#profil" class="px-3 py-2 rounded-xl hover:text-emerald-600 hover:bg-emerald-50 transition-colors">Profil</a>
+                    <a href="#program" class="px-3 py-2 rounded-xl hover:text-emerald-600 hover:bg-emerald-50 transition-colors">Program</a>
+                    <a href="#fasilitas" class="px-3 py-2 rounded-xl hover:text-emerald-600 hover:bg-emerald-50 transition-colors">Fasilitas</a>
+                    <a href="#galeri" class="px-3 py-2 rounded-xl hover:text-emerald-600 hover:bg-emerald-50 transition-colors">Galeri</a>
+                    <a href="#pengumuman" class="px-3 py-2 rounded-xl hover:text-emerald-600 hover:bg-emerald-50 transition-colors">Informasi</a>
+                    <a href="#kontak" class="px-3 py-2 rounded-xl hover:text-emerald-600 hover:bg-emerald-50 transition-colors">Kontak</a>
+                </nav>
+
+                <!-- Auth Action Buttons (Guest & Logged In States) -->
+                <div class="hidden md:flex items-center gap-3">
+                    
+                    <!-- Guest View -->
+                    <div id="nav-guest-view" class="flex items-center gap-2">
+                        <button onclick="openLoginModal()" class="inline-flex items-center justify-center px-4 py-2.5 rounded-2xl bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 font-semibold font-heading transition-all">
+                            <i class="fa-solid fa-right-to-bracket mr-2"></i> Masuk
+                        </button>
+                        <a href="#ppdb" class="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-emerald-600 text-white font-semibold font-heading shadow-md hover:shadow-lg hover:scale-105 transition-all">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> PPDB
+                        </a>
+                    </div>
+
+                    <!-- Logged In View -->
+                    <div id="nav-user-view" class="hidden items-center gap-3">
+                        <button onclick="openDashboardModal()" class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-all">
+                            <img id="nav-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-9 h-9 rounded-xl object-cover">
+                            <div class="text-left">
+                                <span id="nav-user-name" class="block text-xs font-bold font-heading text-slate-800 leading-tight">User</span>
+                                <span id="nav-user-role" class="block text-[10px] font-semibold text-emerald-600 uppercase tracking-wider">Role</span>
+                            </div>
+                        </button>
+
+                        <button onclick="openDashboardModal()" class="px-3 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold font-heading text-xs shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-gauge-high"></i> Dashboard
+                        </button>
+
+                        <button onclick="handleLogout()" title="Keluar" class="p-2.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors">
+                            <i class="fa-solid fa-right-from-bracket text-base"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Hamburger Mobile Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2 rounded-xl text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Navigasi Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-100 px-4 pt-2 pb-6 space-y-2 shadow-lg">
+            
+            <!-- Mobile User Status Banner -->
+            <div id="mobile-user-banner" class="hidden p-3 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-center justify-between mb-2">
+                <div class="flex items-center gap-3">
+                    <img id="mobile-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-10 h-10 rounded-xl object-cover">
+                    <div>
+                        <p id="mobile-user-name" class="text-xs font-bold text-slate-800">Nama User</p>
+                        <p id="mobile-user-role" class="text-[10px] font-semibold text-emerald-600 uppercase">Role</p>
+                    </div>
+                </div>
+                <button onclick="openDashboardModal()" class="px-3 py-1.5 bg-emerald-600 text-white rounded-xl text-xs font-bold font-heading">
+                    Dashboard
+                </button>
+            </div>
+
+            <a href="#beranda" class="mobile-link block px-4 py-2.5 rounded-xl font-medium text-emerald-700 bg-emerald-50">Beranda</a>
+            <a href="#profil" class="mobile-link block px-4 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-emerald-50">Profil</a>
+            <a href="#program" class="mobile-link block px-4 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-emerald-50">Program</a>
+            <a href="#fasilitas" class="mobile-link block px-4 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-emerald-50">Fasilitas</a>
+            <a href="#galeri" class="mobile-link block px-4 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-emerald-50">Galeri</a>
+            <a href="#pengumuman" class="mobile-link block px-4 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-emerald-50">Informasi</a>
+            <a href="#kontak" class="mobile-link block px-4 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-emerald-50">Kontak</a>
+            
+            <div class="pt-2 flex flex-col gap-2">
+                <div id="mobile-auth-btn-container">
+                    <button id="mobile-login-btn" onclick="openLoginModal()" class="w-full text-center px-5 py-3 rounded-xl bg-slate-100 text-slate-700 font-semibold font-heading shadow-sm">
+                        <i class="fa-solid fa-right-to-bracket mr-2"></i> Masuk / Akun Demo
+                    </button>
+                    <button id="mobile-logout-btn" onclick="handleLogout()" class="hidden w-full text-center px-5 py-3 rounded-xl bg-rose-50 text-rose-600 font-semibold font-heading shadow-sm">
+                        <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
+                    </button>
+                </div>
+                <a href="#ppdb" class="mobile-link block text-center px-5 py-3 rounded-xl bg-emerald-600 text-white font-semibold font-heading shadow-md">
+                    <i class="fa-solid fa-paper-plane mr-2"></i> Pendaftaran (PPDB)
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO BANNER SECTION -->
+    <section id="beranda" class="relative overflow-hidden pt-8 pb-16 lg:pt-16 lg:pb-24 bg-gradient-to-b from-emerald-50/70 via-white to-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Text Content -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 text-amber-800 font-medium text-sm border border-amber-200 shadow-sm animate-bounce">
+                        <i class="fa-solid fa-star text-amber-500"></i>
+                        <span>Pendaftaran Siswa Baru T.A. 2026/2027 Telah Dibuka!</span>
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold font-heading text-slate-900 leading-tight">
+                        Membentuk Generasi <span class="text-emerald-600 underline decoration-amber-400 decoration-wavy">Qur'ani</span>, Ceria & Mandiri
+                    </h1>
+                    
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        PAUDQU menghadirkan fondasi pendidikan anak usia dini berbasis nilai Al-Qur'an, adab mulia, dan pengembangan kreativitas anak secara menyeluruh melalui metode belajar seraya bermain.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                        <a href="#ppdb" class="inline-flex items-center justify-center px-8 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-semibold font-heading shadow-xl shadow-emerald-600/30 hover:scale-105 transition-all">
+                            <i class="fa-solid fa-user-plus mr-3"></i> Daftar Sekarang
+                        </a>
+                        <button onclick="openLoginModal()" class="inline-flex items-center justify-center px-8 py-4 rounded-2xl bg-white hover:bg-emerald-50 text-emerald-700 border-2 border-emerald-600 text-lg font-semibold font-heading shadow-sm hover:scale-105 transition-all">
+                            <i class="fa-solid fa-users-gear mr-3"></i> Demo Login Multi-Role
+                        </button>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-3 gap-4 pt-8 border-t border-slate-200/80">
+                        <div>
+                            <p class="text-2xl font-bold font-heading text-emerald-600">100+</p>
+                            <p class="text-xs sm:text-sm text-slate-500">Siswa Aktif</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold font-heading text-amber-500">15+</p>
+                            <p class="text-xs sm:text-sm text-slate-500">Pengajar Hafiz/ah</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold font-heading text-emerald-600">A</p>
+                            <p class="text-xs sm:text-sm text-slate-500">Akreditasi Unggul</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banner Image Graphic -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <div class="relative w-full max-w-md">
+                        <div class="absolute top-0 -left-4 w-72 h-72 bg-amber-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+                        <div class="absolute -bottom-8 right-0 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse delay-700"></div>
+                        
+                        <div class="relative bg-white p-4 rounded-3xl shadow-2xl border-4 border-white rotate-1 hover:rotate-0 transition-transform duration-500">
+                            <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80" alt="Anak Belajar Al Qur'an Ceria" class="rounded-2xl w-full h-80 object-cover" onerror="this.src='https://placehold.co/600x400/10b981/ffffff?text=Anak+Anak+PAUDQU'">
+                            <div class="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/50 text-center">
+                                <p class="text-xs font-semibold text-emerald-600 uppercase tracking-widest mb-1">Motto Sekolah</p>
+                                <p class="text-sm font-semibold text-slate-800 italic">"Belajar Ceria, Berakhlak Mulia, Cinta Al-Qur'an Sejak Dini"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFIL & VISI MISI SECTION -->
+    <section id="profil" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-emerald-600 font-semibold text-sm uppercase tracking-wider bg-emerald-100 px-4 py-1.5 rounded-full">Tentang Kami</span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 mt-3">Mengenal PAUDQU Lebih Dekat</h2>
+                <div class="w-16 h-1 bg-amber-400 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                <div class="space-y-4 text-slate-600 leading-relaxed">
+                    <h3 class="text-2xl font-bold font-heading text-emerald-800">Sejarah & Komitmen Sekolah</h3>
+                    <p>
+                        <strong>PAUDQU (Pendidikan Anak Usia Dini Al-Qur'an)</strong> didirikan sebagai wadah pendidikan usia dini yang mengintegrasikan kurikulum PAUD Nasional dengan pembiasaan nilai-nilai Al-Qur'an.
+                    </p>
+                    <p>
+                        Kami meyakini bahwa masa keemasan (*golden age*) anak adalah waktu terbaik untuk menanamkan kecintaan pada Al-Qur'an, membentuk adab yang santun, serta mengasah kecerdasan emosional dan kognitif anak secara seimbang.
+                    </p>
+                    <div class="flex items-center gap-4 p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                        <i class="fa-solid fa-heart text-3xl text-emerald-600"></i>
+                        <div>
+                            <h4 class="font-bold text-emerald-900">Lingkungan Ramah Anak</h4>
+                            <p class="text-sm text-slate-600">Guru yang penyabar, penyayang, dan bersertifikasi pedagogik islami.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-6 bg-gradient-to-br from-emerald-500 to-emerald-700 text-white rounded-3xl shadow-lg transform translate-y-2">
+                        <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-eye text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold font-heading mb-2">Visi Kami</h4>
+                        <p class="text-xs sm:text-sm text-emerald-100 leading-relaxed">
+                            Menjadi lembaga PAUD Al-Qur'an terdepan dalam membentuk karakter anak soleh, cerdas, kreatif, dan berakhlak Qur'ani.
+                        </p>
+                    </div>
+
+                    <div class="p-6 bg-gradient-to-br from-amber-400 to-amber-600 text-white rounded-3xl shadow-lg transform -translate-y-2">
+                        <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-bullseye text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold font-heading mb-2">Misi Utama</h4>
+                        <p class="text-xs sm:text-sm text-amber-100 leading-relaxed">
+                            Mengenalkan juz 'amma & doa harian, memfasilitasi kreativitas motorik, dan membangun kemandirian anak.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nilai-nilai Keislaman -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
+                <div class="p-5 border border-slate-100 rounded-2xl bg-slate-50 text-center hover:shadow-md transition-shadow">
+                    <i class="fa-solid fa-quran text-3xl text-emerald-600 mb-3"></i>
+                    <h4 class="font-bold font-heading text-slate-800 mb-1">Cinta Qur'an</h4>
+                    <p class="text-xs text-slate-500">Mengenal huruf hijaiyah dan hafalan surah pendek sejak dini.</p>
+                </div>
+                <div class="p-5 border border-slate-100 rounded-2xl bg-slate-50 text-center hover:shadow-md transition-shadow">
+                    <i class="fa-solid fa-hands-holding-child text-3xl text-amber-500 mb-3"></i>
+                    <h4 class="font-bold font-heading text-slate-800 mb-1">Adab & Santun</h4>
+                    <p class="text-xs text-slate-500">Pembiasaan doa harian, adab makan, dan menghormati orang tua.</p>
+                </div>
+                <div class="p-5 border border-slate-100 rounded-2xl bg-slate-50 text-center hover:shadow-md transition-shadow">
+                    <i class="fa-solid fa-child-reaching text-3xl text-emerald-600 mb-3"></i>
+                    <h4 class="font-bold font-heading text-slate-800 mb-1">Kemandirian</h4>
+                    <p class="text-xs text-slate-500">Melatih life-skills dasar, kerapihan diri, dan keberanian anak.</p>
+                </div>
+                <div class="p-5 border border-slate-100 rounded-2xl bg-slate-50 text-center hover:shadow-md transition-shadow">
+                    <i class="fa-solid fa-palette text-3xl text-amber-500 mb-3"></i>
+                    <h4 class="font-bold font-heading text-slate-800 mb-1">Kreativitas</h4>
+                    <p class="text-xs text-slate-500">Mengembangkan bakat seni, ketangkasan motorik & imajinasi.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PROGRAM UNGGULAN SECTION -->
+    <section id="program" class="py-16 bg-slate-50 pattern-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-emerald-600 font-semibold text-sm uppercase tracking-wider bg-emerald-100 px-4 py-1.5 rounded-full">Program Pendidikan</span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 mt-3">Program Unggulan PAUDQU</h2>
+                <p class="text-slate-600 mt-2">Kurikulum seimbang yang dirancang sesuai tahap perkembangan usia emas anak.</p>
+                <div class="w-16 h-1 bg-amber-400 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl border border-slate-100 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                            <i class="fa-solid fa-book-open-reader"></i>
+                        </div>
+                        <h3 class="text-xl font-bold font-heading text-slate-800 mb-3">Tahfiz & Tahsin Junior</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                            Metode muraja'ah interaktif menyenangkan untuk menghafal Surah Pendek (Juz 30) & kelancaran membaca Hijaiyah.
+                        </p>
+                    </div>
+                    <ul class="text-xs text-slate-500 space-y-2 border-t border-slate-100 pt-4">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Target 15 Surah Pendek</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Metode Yanbu'a / Iqro</li>
+                    </ul>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl border border-slate-100 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                            <i class="fa-solid fa-icons"></i>
+                        </div>
+                        <h3 class="text-xl font-bold font-heading text-slate-800 mb-3">Calistung Islami</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                            Pengenalan Membaca, Menulis, dan Berhitung secara bertahap tanpa paksaan melalui alat peraga edukatif.
+                        </p>
+                    </div>
+                    <ul class="text-xs text-slate-500 space-y-2 border-t border-slate-100 pt-4">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-amber-500 mr-2"></i> Pengenalan Angka & Huruf</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-amber-500 mr-2"></i> Media Permainan Sensori</li>
+                    </ul>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl border border-slate-100 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                            <i class="fa-solid fa-hands-praying"></i>
+                        </div>
+                        <h3 class="text-xl font-bold font-heading text-slate-800 mb-3">Adab & Praktik Ibadah</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                            Pembiasaan wudhu, sholat dhuha berjamaah, doa harian, serta kisah keteladanan Nabi & Sahabat.
+                        </p>
+                    </div>
+                    <ul class="text-xs text-slate-500 space-y-2 border-t border-slate-100 pt-4">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Praktik Sholat Dhuha</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Haflah Akhir Sanah / Manasik</li>
+                    </ul>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl border border-slate-100 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                            <i class="fa-solid fa-child"></i>
+                        </div>
+                        <h3 class="text-xl font-bold font-heading text-slate-800 mb-3">Motorik & Seni Kreatif</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                            Mengasah koordinasi mata-tangan melalui kegiatan mewarnai, melipat origami, outbound, dan mini zoo.
+                        </p>
+                    </div>
+                    <ul class="text-xs text-slate-500 space-y-2 border-t border-slate-100 pt-4">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-amber-500 mr-2"></i> Fun Crafting & Cooking Class</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-amber-500 mr-2"></i> Outbound & Edukasi Alam</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FASILITAS SECTION -->
+    <section id="fasilitas" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-emerald-600 font-semibold text-sm uppercase tracking-wider bg-emerald-100 px-4 py-1.5 rounded-full">Kenyamanan Belajar</span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 mt-3">Fasilitas Lengkap & Nyaman</h2>
+                <p class="text-slate-600 mt-2">Didesain khusus untuk keamanan, kesehatan, dan kenyamanan aktivitas anak.</p>
+                <div class="w-16 h-1 bg-amber-400 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all">
+                    <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=600&q=80" alt="Ruang Kelas AC Ceria" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/10b981/ffffff?text=Ruang+Kelas+AC'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
+                        <h3 class="text-xl font-bold font-heading">Ruang Kelas Ber-AC & Ceria</h3>
+                        <p class="text-xs text-slate-200 mt-1">Dilengkapi karpet empuk, APE edukatif, dan pencahayaan ramah anak.</p>
+                    </div>
+                </div>
+
+                <div class="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all">
+                    <img src="https://images.unsplash.com/photo-1566454825481-4e48f80aa4d7?auto=format&fit=crop&w=600&q=80" alt="Playground Luar & Dalam" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Playground+Anak'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
+                        <h3 class="text-xl font-bold font-heading">Area Bermain (Playground)</h3>
+                        <p class="text-xs text-slate-200 mt-1">Permainan perosotan, ayunan, dan mandi bola yang aman.</p>
+                    </div>
+                </div>
+
+                <div class="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=600&q=80" alt="Perpustakaan Mini Qur'ani" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/10b981/ffffff?text=Perpustakaan+Mini'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
+                        <h3 class="text-xl font-bold font-heading">Perpustakaan Mini Qur'ani</h3>
+                        <p class="text-xs text-slate-200 mt-1">Koleksi buku cerita bergambar islami, nabi, & ensiklopedia anak.</p>
+                    </div>
+                </div>
+
+                <div class="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all">
+                    <img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=600&q=80" alt="Musholla & Tempat Wudhu Ramah Anak" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/065f46/ffffff?text=Musholla+Mini'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
+                        <h3 class="text-xl font-bold font-heading">Musholla & Keran Wudhu Cilik</h3>
+                        <p class="text-xs text-slate-200 mt-1">Fasilitas ibadah dengan ukuran keran yang pas untuk fisik anak.</p>
+                    </div>
+                </div>
+
+                <div class="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all">
+                    <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=600&q=80" alt="Kebun Sekolah & Mini Zoo" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Kebun+Sekolah'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
+                        <h3 class="text-xl font-bold font-heading">Kebun Sekolah & Mini Zoo</h3>
+                        <p class="text-xs text-slate-200 mt-1">Sarana mengenalkan tanaman, kelinci, & burung untuk mencintai alam.</p>
+                    </div>
+                </div>
+
+                <div class="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all">
+                    <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=600&q=80" alt="Ruang Kesehatan / UKS" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/10b981/ffffff?text=Ruang+UKS'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
+                        <h3 class="text-xl font-bold font-heading">UKS & Pojok Istirahat</h3>
+                        <p class="text-xs text-slate-200 mt-1">Peralatan P3K lengkap dan ruang istirahat yang bersih & tertata.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERI KEGIATAN SECTION (FILTERABLE) -->
+    <section id="galeri" class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-emerald-600 font-semibold text-sm uppercase tracking-wider bg-emerald-100 px-4 py-1.5 rounded-full">Aktivitas Seru</span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 mt-3">Galeri Kegiatan Siswa</h2>
+                <p class="text-slate-600 mt-2">Momen keceriaan dan proses tumbuh kembang santri di PAUDQU.</p>
+                <div class="w-16 h-1 bg-amber-400 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-2 mb-10">
+                <button onclick="filterGallery('all')" class="gallery-btn px-5 py-2 rounded-full font-medium text-sm transition-all bg-emerald-600 text-white shadow-md" data-filter="all">Semua Momen</button>
+                <button onclick="filterGallery('tahfiz')" class="gallery-btn px-5 py-2 rounded-full font-medium text-sm transition-all bg-white text-slate-600 hover:bg-emerald-50 border border-slate-200" data-filter="tahfiz">Tahfiz & Mengaji</button>
+                <button onclick="filterGallery('outbound')" class="gallery-btn px-5 py-2 rounded-full font-medium text-sm transition-all bg-white text-slate-600 hover:bg-emerald-50 border border-slate-200" data-filter="outbound">Outbound & Fieldtrip</button>
+                <button onclick="filterGallery('craft')" class="gallery-btn px-5 py-2 rounded-full font-medium text-sm transition-all bg-white text-slate-600 hover:bg-emerald-50 border border-slate-200" data-filter="craft">Kreativitas & Seni</button>
+                <button onclick="filterGallery('manasik')" class="gallery-btn px-5 py-2 rounded-full font-medium text-sm transition-all bg-white text-slate-600 hover:bg-emerald-50 border border-slate-200" data-filter="manasik">Manasik Haji Cilik</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-container">
+                
+                <div class="gallery-item tahfiz bg-white p-3 rounded-3xl shadow-sm border border-slate-100">
+                    <img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=600&q=80" alt="Murajaah Bersama" class="w-full h-52 object-cover rounded-2xl mb-3" onerror="this.src='https://placehold.co/600x400/10b981/ffffff?text=Tahfiz'">
+                    <div class="px-2 pb-2">
+                        <span class="text-xs text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-md">Tahfiz & Mengaji</span>
+                        <h4 class="font-bold font-heading text-slate-800 mt-2">Hafalan Surah Pendek Bersama Ustazah</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item outbound bg-white p-3 rounded-3xl shadow-sm border border-slate-100">
+                    <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=600&q=80" alt="Outbound Edukasi" class="w-full h-52 object-cover rounded-2xl mb-3" onerror="this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Outbound'">
+                    <div class="px-2 pb-2">
+                        <span class="text-xs text-amber-600 font-semibold bg-amber-50 px-2.5 py-1 rounded-md">Outbound</span>
+                        <h4 class="font-bold font-heading text-slate-800 mt-2">Praktek Tangkas & Tangguh di Alam</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item craft bg-white p-3 rounded-3xl shadow-sm border border-slate-100">
+                    <img src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=600&q=80" alt="Lomba Mewarnai" class="w-full h-52 object-cover rounded-2xl mb-3" onerror="this.src='https://placehold.co/600x400/10b981/ffffff?text=Kreativitas'">
+                    <div class="px-2 pb-2">
+                        <span class="text-xs text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-md">Kreativitas</span>
+                        <h4 class="font-bold font-heading text-slate-800 mt-2">Mewarnai & Membuat Kaligrafi Sederhana</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item manasik bg-white p-3 rounded-3xl shadow-sm border border-slate-100">
+                    <img src="https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=600&q=80" alt="Manasik Haji Cilik" class="w-full h-52 object-cover rounded-2xl mb-3" onerror="this.src='https://placehold.co/600x400/065f46/ffffff?text=Manasik+Haji'">
+                    <div class="px-2 pb-2">
+                        <span class="text-xs text-amber-600 font-semibold bg-amber-50 px-2.5 py-1 rounded-md">Manasik Haji</span>
+                        <h4 class="font-bold font-heading text-slate-800 mt-2">Latihan Thawaf & Sa'i Mini di Lapangan</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item tahfiz bg-white p-3 rounded-3xl shadow-sm border border-slate-100">
+                    <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80" alt="Wisuda Tahfiz" class="w-full h-52 object-cover rounded-2xl mb-3" onerror="this.src='https://placehold.co/600x400/10b981/ffffff?text=Wisuda'">
+                    <div class="px-2 pb-2">
+                        <span class="text-xs text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-md">Tahfiz & Mengaji</span>
+                        <h4 class="font-bold font-heading text-slate-800 mt-2">Munaqosyah & Wisuda Tahfiz Cilik</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item craft bg-white p-3 rounded-3xl shadow-sm border border-slate-100">
+                    <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&w=600&q=80" alt="Cooking Class Islami" class="w-full h-52 object-cover rounded-2xl mb-3" onerror="this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Cooking+Class'">
+                    <div class="px-2 pb-2">
+                        <span class="text-xs text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-md">Kreativitas</span>
+                        <h4 class="font-bold font-heading text-slate-800 mt-2">Cooking Class: Kreasikan Makanan Halal</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FORM PENDAFTARAN ONLINE (PPDB) SECTION -->
+    <section id="ppdb" class="py-16 bg-gradient-to-br from-emerald-800 via-emerald-700 to-slate-900 text-white relative overflow-hidden">
+        
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-amber-500/20 rounded-full blur-3xl"></div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <div class="text-center mb-12">
+                <span class="bg-amber-400 text-slate-900 font-bold text-xs uppercase tracking-wider px-4 py-1.5 rounded-full">PPDB Online T.A. 2026/2027</span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-heading mt-4">Formulir Pendaftaran Siswa Baru</h2>
+                <p class="text-emerald-100 mt-2 text-sm sm:text-base">Isi formulir di bawah ini dengan lengkap untuk mendaftarkan putra-putri tercinta di PAUDQU.</p>
+            </div>
+
+            <div class="bg-white text-slate-800 p-6 sm:p-10 rounded-3xl shadow-2xl border border-white/20">
+                <form id="ppdb-form" onsubmit="handlePPDBSubmit(event)" class="space-y-6">
+                    
+                    <!-- Section Data Anak -->
+                    <div>
+                        <h3 class="text-lg font-bold font-heading text-emerald-700 border-b border-slate-200 pb-2 mb-4 flex items-center">
+                            <i class="fa-solid fa-child mr-2"></i> Data Calon Siswa
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap Anak *</label>
+                                <input type="text" id="namaAnak" required placeholder="Contoh: Muhammad Faiz Ramadhan" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Panggilan *</label>
+                                <input type="text" id="panggilanAnak" required placeholder="Contoh: Faiz" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Tempat Lahir *</label>
+                                <input type="text" id="tempatLahir" required placeholder="Contoh: Jakarta" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Lahir *</label>
+                                <input type="date" id="tglLahir" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Kelamin *</label>
+                                <select id="jk" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm">
+                                    <option value="">-- Pilih Jenis Kelamin --</option>
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Pilihan Kelas *</label>
+                                <select id="pilihanKelas" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm">
+                                    <option value="">-- Pilih Kelas --</option>
+                                    <option value="PAUD A (Usia 3 - 4 Tahun)">PAUD A (Usia 3 - 4 Tahun)</option>
+                                    <option value="PAUD B (Usia 4 - 5 Tahun)">PAUD B (Usia 4 - 5 Tahun)</option>
+                                    <option value="Program Tahfiz Intensif Junior">Program Tahfiz Intensif Junior</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Data Orang Tua -->
+                    <div>
+                        <h3 class="text-lg font-bold font-heading text-emerald-700 border-b border-slate-200 pb-2 mb-4 flex items-center">
+                            <i class="fa-solid fa-users mr-2"></i> Data Orang Tua / Wali
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Ayah / Ibu / Wali *</label>
+                                <input type="text" id="namaOrtu" required placeholder="Contoh: Ahmad Subagja" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">No. WhatsApp Aktif *</label>
+                                <input type="tel" id="waOrtu" required placeholder="Contoh: 081234567890" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Alamat Domisili Lengkap *</label>
+                                <textarea id="alamatOrtu" rows="2" required placeholder="Jl. Raya Permai No. 12, RT 02 / RW 05, Kelurahan..." class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold font-heading text-emerald-700 border-b border-slate-200 pb-2 mb-4 flex items-center">
+                            <i class="fa-solid fa-file-arrow-up mr-2"></i> Lampiran Dokumen (Opsional)
+                        </h3>
+                        <div class="border-2 border-dashed border-slate-300 rounded-2xl p-4 text-center hover:bg-slate-50 transition-colors cursor-pointer">
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-emerald-600 mb-2"></i>
+                            <p class="text-xs text-slate-600 font-medium">Unggah Foto Akta Kelahiran / KK (PDF/JPG, Max 2MB)</p>
+                            <input type="file" class="hidden" id="fileDoc" onchange="updateFileName(this)">
+                            <button type="button" onclick="document.getElementById('fileDoc').click()" class="mt-2 text-xs font-semibold text-emerald-700 bg-emerald-100 hover:bg-emerald-200 px-4 py-1.5 rounded-lg">Pilih File</button>
+                            <p id="file-name" class="text-xs text-emerald-600 mt-2 font-medium"></p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-amber-500 to-emerald-600 text-white font-bold font-heading text-lg rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Kirim Form Pendaftaran
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MODAL LOGIN & PRESET MULTI ROLE -->
+    <div id="login-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl animate-fade-in relative">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 w-9 h-9 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3">
+                    <i class="fa-solid fa-user-lock"></i>
+                </div>
+                <h3 class="text-2xl font-bold font-heading text-slate-800">Masuk Portal PAUDQU</h3>
+                <p class="text-xs text-slate-500 mt-1">Gunakan akun Anda atau coba Preset Quick Login di bawah</p>
+            </div>
+
+            <!-- Quick Preset Login Switcher Buttons -->
+            <div class="mb-6 p-3 bg-emerald-50 rounded-2xl border border-emerald-100">
+                <p class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider mb-2 text-center">
+                    <i class="fa-solid fa-bolt text-amber-500 mr-1"></i> Quick Login (Akses Demo Instan)
+                </p>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="quickLogin('admin')" class="p-2 bg-white hover:bg-emerald-600 hover:text-white text-slate-700 text-xs font-bold font-heading rounded-xl border border-emerald-200 shadow-sm transition-all text-center flex flex-col items-center gap-1">
+                        <i class="fa-solid fa-user-shield text-base text-emerald-600"></i>
+                        <span>Admin</span>
+                    </button>
+                    <button onclick="quickLogin('guru')" class="p-2 bg-white hover:bg-emerald-600 hover:text-white text-slate-700 text-xs font-bold font-heading rounded-xl border border-emerald-200 shadow-sm transition-all text-center flex flex-col items-center gap-1">
+                        <i class="fa-solid fa-chalkboard-user text-base text-amber-500"></i>
+                        <span>Guru</span>
+                    </button>
+                    <button onclick="quickLogin('ortu')" class="p-2 bg-white hover:bg-emerald-600 hover:text-white text-slate-700 text-xs font-bold font-heading rounded-xl border border-emerald-200 shadow-sm transition-all text-center flex flex-col items-center gap-1">
+                        <i class="fa-solid fa-people-roof text-base text-sky-500"></i>
+                        <span>Orang Tua</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative flex py-2 items-center mb-4">
+                <div class="flex-grow border-t border-slate-200"></div>
+                <span class="flex-shrink mx-3 text-[10px] text-slate-400 uppercase font-semibold">Atau Login Manual</span>
+                <div class="flex-grow border-t border-slate-200"></div>
+            </div>
+
+            <form onsubmit="handleManualLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Email / Username</label>
+                    <input type="text" id="login-username" required placeholder="admin@paudqu.sch.id" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Kata Sandi</label>
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm">
+                </div>
+                <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold font-heading rounded-xl shadow-md transition-colors text-sm">
+                    Masuk Sekarang
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DASHBOARD MULTI-ROLE -->
+    <div id="dashboard-modal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4">
+        <div class="bg-white rounded-3xl max-w-5xl w-full h-[90vh] flex flex-col shadow-2xl overflow-hidden relative">
+            
+            <!-- Dashboard Modal Header -->
+            <div class="px-6 py-4 bg-emerald-800 text-white flex justify-between items-center shrink-0">
+                <div class="flex items-center gap-3">
+                    <img id="dash-avatar" src="" alt="User Avatar" class="w-11 h-11 rounded-2xl border-2 border-white/40 object-cover">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 id="dash-user-name" class="text-lg font-bold font-heading">User Name</h3>
+                            <span id="dash-user-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-slate-900 uppercase">Role</span>
+                        </div>
+                        <p id="dash-user-email" class="text-xs text-emerald-200">user@paudqu.sch.id</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="handleLogout()" class="px-3 py-1.5 bg-rose-500/80 hover:bg-rose-600 text-white rounded-xl text-xs font-bold font-heading transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-right-from-bracket"></i> <span class="hidden sm:inline">Logout</span>
+                    </button>
+                    <button onclick="closeDashboardModal()" class="w-9 h-9 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Content Container (Dynamic according to role) -->
+            <div class="flex-grow overflow-y-auto p-4 sm:p-8 bg-slate-50 custom-scroll" id="dashboard-body">
+                
+                <!-- VIEW 1: SUPER ADMIN DASHBOARD -->
+                <div id="dash-view-admin" class="space-y-6 hidden">
+                    <!-- Metric Cards -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs text-slate-500 font-semibold">Total Santri</span>
+                                <span class="w-8 h-8 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-child text-sm"></i></span>
+                            </div>
+                            <p class="text-2xl font-bold font-heading text-slate-800">128</p>
+                            <p class="text-[10px] text-emerald-600 font-medium mt-1"><i class="fa-solid fa-arrow-up"></i> +12% dari T.A. lalu</p>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs text-slate-500 font-semibold">Pendaftar PPDB</span>
+                                <span class="w-8 h-8 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-id-card text-sm"></i></span>
+                            </div>
+                            <p class="text-2xl font-bold font-heading text-slate-800" id="admin-count-ppdb">24</p>
+                            <p class="text-[10px] text-amber-600 font-medium mt-1">Gelombang 1 Aktif</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs text-slate-500 font-semibold">Ustadz / Ustadzah</span>
+                                <span class="w-8 h-8 bg-sky-100 text-sky-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-chalkboard-user text-sm"></i></span>
+                            </div>
+                            <p class="text-2xl font-bold font-heading text-slate-800">16</p>
+                            <p class="text-[10px] text-sky-600 font-medium mt-1">Sertifikasi Tahfiz</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs text-slate-500 font-semibold">Kas SPP Masuk</span>
+                                <span class="w-8 h-8 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-wallet text-sm"></i></span>
+                            </div>
+                            <p class="text-2xl font-bold font-heading text-emerald-600">Rp 38.4M</p>
+                            <p class="text-[10px] text-slate-500 font-medium mt-1">Bulan Februari 2026</p>
+                        </div>
+                    </div>
+
+                    <!-- PPDB Management Table -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <h4 class="font-bold font-heading text-slate-800 text-lg">Verifikasi Pendaftaran PPDB Terbaru</h4>
+                                <p class="text-xs text-slate-500">Kelola berkas calon santri yang masuk secara online</p>
+                            </div>
+                            <button onclick="showToast('Data direfresh dari server!', 'info')" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-xl">
+                                <i class="fa-solid fa-rotate-right mr-1"></i> Refresh
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                                        <th class="p-3 font-semibold">No. Reg</th>
+                                        <th class="p-3 font-semibold">Nama Santri</th>
+                                        <th class="p-3 font-semibold">Pilihan Kelas</th>
+                                        <th class="p-3 font-semibold">Orang Tua / WA</th>
+                                        <th class="p-3 font-semibold">Status</th>
+                                        <th class="p-3 font-semibold text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-ppdb-table-body" class="divide-y divide-slate-100">
+                                    <!-- Dynamic JS populate -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: GURU DASHBOARD -->
+                <div id="dash-view-guru" class="space-y-6 hidden">
+                    <div class="bg-gradient-to-r from-emerald-700 to-emerald-900 text-white p-6 rounded-3xl shadow-md flex justify-between items-center">
+                        <div>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-semibold">Kelas PAUD A - Abu Bakar</span>
+                            <h3 class="text-2xl font-bold font-heading mt-2">Input Perkembangan & Presensi Santri</h3>
+                            <p class="text-xs text-emerald-100 mt-1">Ustadzah Aisyah, S.Pd.I • Hari Ini: Jum'at, 16 Oktober 2026</p>
+                        </div>
+                        <div class="hidden sm:block text-right">
+                            <span class="text-3xl font-bold font-heading text-amber-300">22 / 24</span>
+                            <p class="text-xs text-emerald-200">Santri Hadir</p>
+                        </div>
+                    </div>
+
+                    <!-- Input Form Rapor Harian -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        
+                        <div class="lg:col-span-7 bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+                            <h4 class="font-bold font-heading text-slate-800 text-lg border-b pb-2 flex items-center justify-between">
+                                <span><i class="fa-solid fa-pen-to-square text-emerald-600 mr-2"></i> Form Jurnal Harian Santri</span>
+                                <span class="text-xs font-normal text-slate-500">Auto-save draft</span>
+                            </h4>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Pilih Santri *</label>
+                                <select id="guru-select-santri" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                    <option value="Faiz Ramadhan">Muhammad Faiz Ramadhan (PAUD A)</option>
+                                    <option value="Aisha Zahra">Aisha Zahra Humaira (PAUD A)</option>
+                                    <option value="Bilal Al-Ghazali">Bilal Al-Ghazali (PAUD A)</option>
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Capaian Tahfiz</label>
+                                    <input type="text" id="guru-tahfiz-input" value="An-Nas & Al-Falaq (Lancar)" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Kemajuan Iqro / Yanbu'a</label>
+                                    <input type="text" id="guru-iqro-input" value="Jilid 1 Halaman 12" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan Perkembangan Adab & Karakter</label>
+                                <textarea id="guru-catatan-input" rows="3" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">Mampu membaca doa sebelum makan dengan mandiri dan merapikan mainannya sendiri dengan sangat baik.</textarea>
+                            </div>
+
+                            <button onclick="saveGuruJournal()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold font-heading rounded-xl shadow-md transition-colors">
+                                <i class="fa-solid fa-floppy-disk mr-2"></i> Simpan Catatan Harian
+                            </button>
+                        </div>
+
+                        <!-- Presensi Santri Quick Checklist -->
+                        <div class="lg:col-span-5 bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-3">
+                            <h4 class="font-bold font-heading text-slate-800 text-base border-b pb-2">
+                                <i class="fa-solid fa-clipboard-user text-amber-500 mr-2"></i> Presensi Kelas (16 Okt 2026)
+                            </h4>
+                            
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between items-center p-2.5 bg-slate-50 rounded-xl">
+                                    <span class="font-semibold text-slate-800">Muhammad Faiz</span>
+                                    <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-bold rounded-lg text-[10px]">Hadir</span>
+                                </div>
+                                <div class="flex justify-between items-center p-2.5 bg-slate-50 rounded-xl">
+                                    <span class="font-semibold text-slate-800">Aisha Zahra</span>
+                                    <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-bold rounded-lg text-[10px]">Hadir</span>
+                                </div>
+                                <div class="flex justify-between items-center p-2.5 bg-slate-50 rounded-xl">
+                                    <span class="font-semibold text-slate-800">Bilal Al-Ghazali</span>
+                                    <span class="px-2.5 py-1 bg-amber-100 text-amber-800 font-bold rounded-lg text-[10px]">Izin (Sakit)</span>
+                                </div>
+                                <div class="flex justify-between items-center p-2.5 bg-slate-50 rounded-xl">
+                                    <span class="font-semibold text-slate-800">Khadijah Maryam</span>
+                                    <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-bold rounded-lg text-[10px]">Hadir</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- VIEW 3: ORANG TUA DASHBOARD -->
+                <div id="dash-view-ortu" class="space-y-6 hidden">
+                    
+                    <!-- Santri Profile Banner -->
+                    <div class="bg-gradient-to-r from-amber-400 via-amber-500 to-emerald-600 text-white p-6 rounded-3xl shadow-md flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-3xl font-heading font-bold">
+                                👦
+                            </div>
+                            <div>
+                                <span class="bg-white/20 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Santri Aktif • PAUD A</span>
+                                <h3 class="text-2xl font-bold font-heading mt-1">Muhammad Faiz Ramadhan</h3>
+                                <p class="text-xs text-amber-100">Wali Santri: Bpk. Ahmad Subagja</p>
+                            </div>
+                        </div>
+                        <button onclick="printRegistration()" class="px-4 py-2.5 bg-white text-slate-800 hover:bg-slate-100 font-bold font-heading text-xs rounded-xl shadow-md transition-all shrink-0">
+                            <i class="fa-solid fa-id-card text-emerald-600 mr-1.5"></i> Kartu PPDB Digital
+                        </button>
+                    </div>
+
+                    <!-- Progress Cards -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        
+                        <!-- Capaian Hafalan Qur'an -->
+                        <div class="lg:col-span-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+                            <h4 class="font-bold font-heading text-slate-800 text-lg flex items-center justify-between">
+                                <span><i class="fa-solid fa-book-quran text-emerald-600 mr-2"></i> Laporan Hafalan Qur'an</span>
+                                <span class="text-xs text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-full">Target 15 Surah</span>
+                            </h4>
+
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-slate-700">Progres Juz 30 (8 Surah Dikuasai)</span>
+                                        <span class="text-emerald-600 font-bold">53%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                        <div class="bg-gradient-to-r from-emerald-500 to-amber-400 h-full w-[53%] rounded-full"></div>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 bg-slate-50 rounded-2xl text-xs space-y-1.5 border border-slate-100">
+                                    <p class="font-bold text-slate-800">Hafalan Terakhir (16 Okt 2026):</p>
+                                    <p class="text-slate-600">Surah An-Nas (Lancar & Fasih Tajwid Dasar)</p>
+                                    <p class="text-[11px] text-emerald-700 italic font-medium">"Ananda Faiz sangat antusias saat diajak muraja'ah bersama."</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status SPP & Keuangan -->
+                        <div class="lg:col-span-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+                            <h4 class="font-bold font-heading text-slate-800 text-lg flex items-center justify-between">
+                                <span><i class="fa-solid fa-receipt text-amber-500 mr-2"></i> Status SPP & Keuangan</span>
+                                <span class="text-xs text-emerald-600 font-bold bg-emerald-100 px-2.5 py-1 rounded-full"><i class="fa-solid fa-check mr-1"></i> Lunas Oktober</span>
+                            </h4>
+
+                            <div class="p-4 bg-emerald-50/60 rounded-2xl border border-emerald-100 text-xs space-y-2">
+                                <div class="flex justify-between border-b border-emerald-100 pb-2">
+                                    <span class="text-slate-600">SPP Bulan Oktober 2026</span>
+                                    <span class="font-bold text-emerald-800">Rp 300.000 (LUNAS)</span>
+                                </div>
+                                <div class="flex justify-between border-b border-emerald-100 pb-2">
+                                    <span class="text-slate-600">Kegiatan Outbound Kebun Sekolah</span>
+                                    <span class="font-bold text-emerald-800">Rp 75.000 (LUNAS)</span>
+                                </div>
+                                <div class="flex justify-between pt-1">
+                                    <span class="text-slate-600">SPP Bulan November 2026</span>
+                                    <span class="font-bold text-amber-600">Jatuh Tempo 10 Nov</span>
+                                </div>
+                            </div>
+
+                            <button onclick="showToast('Invoice SPP November dikirim ke WhatsApp Anda!', 'success')" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold font-heading text-xs rounded-xl shadow-sm transition-colors">
+                                <i class="fa-brands fa-whatsapp mr-2"></i> Minta Tagihan via WhatsApp
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PENGUMUMAN / BERITA TERBARU -->
+    <section id="pengumuman" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-emerald-600 font-semibold text-sm uppercase tracking-wider bg-emerald-100 px-4 py-1.5 rounded-full">Informasi Sekolah</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 mt-3">Pengumuman & Berita Terbaru</h2>
+                </div>
+                <p class="text-slate-500 text-sm mt-2 md:mt-0">Update jadwal kegiatan dan kabar akademik PAUDQU.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <article class="bg-slate-50 rounded-3xl p-6 border border-slate-100 hover:shadow-lg transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
+                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full font-semibold">PPDB 2026</span>
+                            <span><i class="fa-regular fa-calendar mr-1"></i> 10 Feb 2026</span>
+                        </div>
+                        <h3 class="text-lg font-bold font-heading text-slate-800 mb-2 hover:text-emerald-600 transition-colors">
+                            Gelombang 1 Pendaftaran Santri Baru Dibuka
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            Dapatkan potongan beasiswa registrasi bagi 20 pendaftar pertama pada Gelombang 1 tahun ajaran 2026/2027.
+                        </p>
+                    </div>
+                    <a href="#ppdb" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1">
+                        Daftar Sekarang <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </article>
+
+                <article class="bg-slate-50 rounded-3xl p-6 border border-slate-100 hover:shadow-lg transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-semibold">Kegiatan</span>
+                            <span><i class="fa-regular fa-calendar mr-1"></i> 22 Jan 2026</span>
+                        </div>
+                        <h3 class="text-lg font-bold font-heading text-slate-800 mb-2 hover:text-emerald-600 transition-colors">
+                            Agenda Outbound & Mini Zoo Kebun Sekolah
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            Seluruh santri PAUDQU akan mengikuti edukasi luar kelas mengenal satwa dan tanaman ciptaan Allah SWT.
+                        </p>
+                    </div>
+                    <a href="#galeri" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1">
+                        Lihat Galeri <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </article>
+
+                <article class="bg-slate-50 rounded-3xl p-6 border border-slate-100 hover:shadow-lg transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-semibold">Akademik</span>
+                            <span><i class="fa-regular fa-calendar mr-1"></i> 15 Jan 2026</span>
+                        </div>
+                        <h3 class="text-lg font-bold font-heading text-slate-800 mb-2 hover:text-emerald-600 transition-colors">
+                            Pembagian Raport Perkembangan Capaian Santri
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            Orang tua diundang hadir untuk berkonsultasi mengenai laporan tumbuh kembang hafalan dan karakter anak.
+                        </p>
+                    </div>
+                    <span class="text-xs font-bold text-slate-400 flex items-center gap-1">
+                        Selesai Dilaksanakan
+                    </span>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- KONTAK & LOKASI SECTION -->
+    <section id="kontak" class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-emerald-600 font-semibold text-sm uppercase tracking-wider bg-emerald-100 px-4 py-1.5 rounded-full">Hubungi Kami</span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 mt-3">Kontak & Lokasi Sekolah</h2>
+                <p class="text-slate-600 mt-2">Silakan kunjungi kami atau kirimkan pertanyaan seputar pendaftaran.</p>
+                <div class="w-16 h-1 bg-amber-400 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Detail Info & Map -->
+                <div class="lg:col-span-6 space-y-6">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4">
+                            <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Alamat Kampus</h4>
+                                <p class="text-xs text-slate-500 mt-1">Jl. Masjid Al-Qur'an No. 88, Kp. Madani, Bekasi, Jawa Barat</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4">
+                            <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">WhatsApp Admin</h4>
+                                <p class="text-xs text-slate-500 mt-1">+62 812-3456-7890<br>(Senin - Sabtu)</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4">
+                            <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Email Resmi</h4>
+                                <p class="text-xs text-slate-500 mt-1">info@paudqu-ceria.sch.id</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4">
+                            <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Jam Operasional</h4>
+                                <p class="text-xs text-slate-500 mt-1">07.30 - 12.00 WIB</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-3 rounded-3xl shadow-sm border border-slate-200">
+                        <div class="w-full h-64 bg-slate-200 rounded-2xl overflow-hidden relative flex items-center justify-center">
+                            <iframe class="w-full h-full border-0 rounded-2xl opacity-90" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.28318889158!2d106.9248443!3d-6.2297465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698c69061029d1%3A0x1030bfb2d001120!2sBekasi%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Form Kirim Pesan -->
+                <div class="lg:col-span-6 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <h3 class="text-xl font-bold font-heading text-slate-800 mb-2">Kirim Pesan / Pertanyaan</h3>
+                    <p class="text-xs text-slate-500 mb-6">Ada pertanyaan seputar metode pembelajaran atau survey gedung sekolah? Hubungi kami melalui form ini.</p>
+
+                    <form onsubmit="handleMessageSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Pengirim</label>
+                            <input type="text" required placeholder="Nama Anda" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">No. WhatsApp / Email</label>
+                            <input type="text" required placeholder="Contoh: 08123456789 / email@gmail.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Pesan / Pertanyaan</label>
+                            <textarea rows="4" required placeholder="Tuliskan pertanyaan Anda..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold font-heading rounded-xl shadow-md transition-colors text-sm">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-white pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-slate-800">
+                
+                <div class="md:col-span-2 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white">
+                            <i class="fa-solid fa-book-quran text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold font-heading text-white">PAUDQU</span>
+                    </div>
+                    <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+                        Lembaga Pendidikan Anak Usia Dini Al-Qur'an yang berkomitmen menanamkan cinta Qur'an, kecerdasan emosional, dan akhlakul karimah sejak usia dini.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold font-heading text-white mb-4 text-sm">Navigasi Cepat</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="#beranda" class="hover:text-emerald-400 transition-colors">Beranda</a></li>
+                        <li><a href="#profil" class="hover:text-emerald-400 transition-colors">Profil Sekolah</a></li>
+                        <li><a href="#program" class="hover:text-emerald-400 transition-colors">Program Unggulan</a></li>
+                        <li><a href="#fasilitas" class="hover:text-emerald-400 transition-colors">Fasilitas Kampus</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold font-heading text-white mb-4 text-sm">Layanan Portal</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><button onclick="openLoginModal()" class="hover:text-emerald-400 transition-colors">Login Admin / Guru / Ortu</button></li>
+                        <li><a href="#ppdb" class="hover:text-emerald-400 transition-colors">Pendaftaran PPDB Online</a></li>
+                        <li><a href="#pengumuman" class="hover:text-emerald-400 transition-colors">Pengumuman Terkini</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="pt-8 text-center text-xs text-slate-500">
+                <p>&copy; 2026 PAUDQU (Pendidikan Anak Usia Dini Al-Qur'an). Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT AUTHENTICATION & MULTI-ROLE STATE LOGIC -->
+    <script>
+        // MOCK DATABASE & PRESET USERS
+        const PRESET_USERS = {
+            admin: {
+                name: "H. Abdullah, M.Pd",
+                role: "Super Admin",
+                roleKey: "admin",
+                email: "admin@paudqu.sch.id",
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+            },
+            guru: {
+                name: "Ustadzah Aisyah, S.Pd.I",
+                role: "Guru / Pengajar",
+                roleKey: "guru",
+                email: "aisyah@paudqu.sch.id",
+                avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+            },
+            ortu: {
+                name: "Ahmad Subagja (Ayah Faiz)",
+                role: "Orang Tua / Wali",
+                roleKey: "ortu",
+                email: "ahmad.subagja@gmail.com",
+                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
+            }
+        };
+
+        // MOCK DATA PPDB UNTUK ADMIN
+        let ppdbList = [
+            { id: "PQ-202688", nama: "Muhammad Faiz Ramadhan", kelas: "PAUD A", ortu: "Ahmad Subagja", wa: "081234567890", status: "Diterima" },
+            { id: "PQ-202689", nama: "Aisha Zahra Humaira", kelas: "PAUD A", ortu: "Budi Santoso", wa: "081987654321", status: "Pending" },
+            { id: "PQ-202690", nama: "Bilal Al-Ghazali", kelas: "PAUD B", ortu: "Umar Faruq", wa: "082155554444", status: "Diterima" }
+        ];
+
+        // SESSION STATE
+        let currentUser = null;
+
+        // INITIALIZE APP
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPPDBAdminTable();
+        });
+
+        // TOAST NOTIFICATION UTILITY
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const bgClass = type === 'success' ? 'bg-emerald-600' : (type === 'info' ? 'bg-sky-600' : 'bg-rose-600');
+            const icon = type === 'success' ? 'fa-circle-check' : (type === 'info' ? 'fa-circle-info' : 'fa-triangle-exclamation');
+
+            toast.className = `${bgClass} text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-xs font-semibold pointer-events-auto transform transition-all duration-300 translate-x-12 opacity-0`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i> <span>${message}</span>`;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-x-12', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-x-12', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // QUICK LOGIN FUNCTION
+        function quickLogin(roleKey) {
+            currentUser = PRESET_USERS[roleKey];
+            updateAuthUI();
+            closeLoginModal();
+            showToast(`Berhasil masuk sebagai ${currentUser.name} (${currentUser.role})`, 'success');
+            openDashboardModal();
+        }
+
+        // MANUAL LOGIN HANDLER
+        function handleManualLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            currentUser = {
+                name: username.split('@')[0] || "User Demo",
+                role: "Wali Santri",
+                roleKey: "ortu",
+                email: username,
+                avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80"
+            };
+            updateAuthUI();
+            closeLoginModal();
+            showToast(`Selamat datang, ${currentUser.name}!`, 'success');
+            openDashboardModal();
+        }
+
+        // LOGOUT HANDLER
+        function handleLogout() {
+            currentUser = null;
+            updateAuthUI();
+            closeDashboardModal();
+            showToast('Anda telah keluar dari akun.', 'info');
+        }
+
+        // UPDATE UI NAVBAR BASED ON AUTH STATE
+        function updateAuthUI() {
+            const navGuestView = document.getElementById('nav-guest-view');
+            const navUserView = document.getElementById('nav-user-view');
+            const mobileBanner = document.getElementById('mobile-user-banner');
+            const mobileLoginBtn = document.getElementById('mobile-login-btn');
+            const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+
+            if (currentUser) {
+                // Desktop Navbar
+                navGuestView.classList.add('hidden');
+                navUserView.classList.remove('hidden');
+                navUserView.classList.add('flex');
+                document.getElementById('nav-avatar').src = currentUser.avatar;
+                document.getElementById('nav-user-name').textContent = currentUser.name;
+                document.getElementById('nav-user-role').textContent = currentUser.role;
+
+                // Mobile Menu
+                mobileBanner.classList.remove('hidden');
+                document.getElementById('mobile-avatar').src = currentUser.avatar;
+                document.getElementById('mobile-user-name').textContent = currentUser.name;
+                document.getElementById('mobile-user-role').textContent = currentUser.role;
+                mobileLoginBtn.classList.add('hidden');
+                mobileLogoutBtn.classList.remove('hidden');
+
+                // Dashboard Header
+                document.getElementById('dash-avatar').src = currentUser.avatar;
+                document.getElementById('dash-user-name').textContent = currentUser.name;
+                document.getElementById('dash-user-badge').textContent = currentUser.role;
+                document.getElementById('dash-user-email').textContent = currentUser.email;
+
+                // Toggle Dashboard Views
+                document.getElementById('dash-view-admin').classList.add('hidden');
+                document.getElementById('dash-view-guru').classList.add('hidden');
+                document.getElementById('dash-view-ortu').classList.add('hidden');
+
+                if (currentUser.roleKey === 'admin') {
+                    document.getElementById('dash-view-admin').classList.remove('hidden');
+                } else if (currentUser.roleKey === 'guru') {
+                    document.getElementById('dash-view-guru').classList.remove('hidden');
+                } else {
+                    document.getElementById('dash-view-ortu').classList.remove('hidden');
+                }
+
+            } else {
+                navGuestView.classList.remove('hidden');
+                navUserView.classList.add('hidden');
+                mobileBanner.classList.add('hidden');
+                mobileLoginBtn.classList.remove('hidden');
+                mobileLogoutBtn.classList.add('hidden');
+            }
+        }
+
+        // MODAL CONTROLLERS
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+        }
+
+        function openDashboardModal() {
+            if (!currentUser) {
+                openLoginModal();
+                return;
+            }
+            document.getElementById('dashboard-modal').classList.remove('hidden');
+        }
+
+        function closeDashboardModal() {
+            document.getElementById('dashboard-modal').classList.add('hidden');
+        }
+
+        // RENDER ADMIN PPDB TABLE
+        function renderPPDBAdminTable() {
+            const tbody = document.getElementById('admin-ppdb-table-body');
+            document.getElementById('admin-count-ppdb').textContent = ppdbList.length;
+
+            tbody.innerHTML = ppdbList.map((item, index) => `
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="p-3 font-bold text-emerald-700">${item.id}</td>
+                    <td class="p-3 font-semibold text-slate-800">${item.nama}</td>
+                    <td class="p-3 text-slate-600">${item.kelas}</td>
+                    <td class="p-3 text-slate-600">${item.ortu} (${item.wa})</td>
+                    <td class="p-3">
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                            item.status === 'Diterima' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                        }">
+                            ${item.status}
+                        </span>
+                    </td>
+                    <td class="p-3 text-center space-x-1">
+                        <button onclick="approvePPDB(${index})" title="Verifikasi Terima" class="p-1.5 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded-lg">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                        <button onclick="deletePPDB(${index})" title="Hapus Data" class="p-1.5 bg-rose-100 hover:bg-rose-200 text-rose-700 rounded-lg">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function approvePPDB(index) {
+            ppdbList[index].status = "Diterima";
+            renderPPDBAdminTable();
+            showToast(`Pendaftaran ${ppdbList[index].nama} dikonfirmasi!`, 'success');
+        }
+
+        function deletePPDB(index) {
+            const nama = ppdbList[index].nama;
+            ppdbList.splice(index, 1);
+            renderPPDBAdminTable();
+            showToast(`Pendaftaran ${nama} telah dihapus.`, 'info');
+        }
+
+        // GURU SAVE JOURNAL
+        function saveGuruJournal() {
+            const santri = document.getElementById('guru-select-santri').value;
+            showToast(`Laporan harian untuk ${santri} telah disimpan!`, 'success');
+        }
+
+        // MOBILE NAV MENU TOGGLE
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // GALLERY FILTERING
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const buttons = document.querySelectorAll('.gallery-btn');
+
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-filter') === category) {
+                    btn.classList.remove('bg-white', 'text-slate-600', 'border');
+                    btn.classList.add('bg-emerald-600', 'text-white', 'shadow-md');
+                } else {
+                    btn.classList.remove('bg-emerald-600', 'text-white', 'shadow-md');
+                    btn.classList.add('bg-white', 'text-slate-600', 'border');
+                }
+            });
+
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function updateFileName(input) {
+            const fileNameDisplay = document.getElementById('file-name');
+            if (input.files && input.files[0]) {
+                fileNameDisplay.textContent = "File Terpilih: " + input.files[0].name;
+            } else {
+                fileNameDisplay.textContent = "";
+            }
+        }
+
+        // PPDB FORM SUBMIT
+        function handlePPDBSubmit(event) {
+            event.preventDefault();
+            const namaAnak = document.getElementById('namaAnak').value;
+            const kelas = document.getElementById('pilihanKelas').value;
+            const namaOrtu = document.getElementById('namaOrtu').value;
+            const waOrtu = document.getElementById('waOrtu').value;
+
+            const newId = 'PQ-' + Math.floor(100000 + Math.random() * 900000);
+
+            // Add to Mock Admin List
+            ppdbList.unshift({
+                id: newId,
+                nama: namaAnak,
+                kelas: kelas,
+                ortu: namaOrtu,
+                wa: waOrtu,
+                status: "Pending"
+            });
+
+            renderPPDBAdminTable();
+            showToast(`Pendaftaran ${namaAnak} Berhasil Dikirim!`, 'success');
+            event.target.reset();
+            document.getElementById('file-name').textContent = "";
+        }
+
+        function printRegistration() {
+            window.print();
+        }
+
+        function handleMessageSubmit(event) {
+            event.preventDefault();
+            showToast('Pesan Anda berhasil terkirim ke WhatsApp Admin!', 'success');
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>
